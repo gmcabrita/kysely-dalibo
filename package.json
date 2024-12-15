@@ -1,0 +1,33 @@
+{
+  "name": "kysely-dalibo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc -w",
+    "db:migrate": "node dist/db/migrator.js && kysely-codegen --out-file ./db/types.d.ts --url='postgres://postgres:@localhost:5432/dalibo' --camel-case --dialect='postgres' && pg_dump -h localhost -U postgres -d dalibo -t 'public.*' -O -x > ./db/schema.sql",
+    "db:rollback": "node dist/db/rollbacker.js && kysely-codegen --out-file ./db/types.d.ts --url='postgres://postgres:@localhost:5432/dalibo' --camel-case --dialect='postgres' && pg_dump -h localhost -U postgres -d dalibo -t 'public.*' -O -x > ./db/schema.sql",
+    "generate:migration": "tsx scripts/migration-generator.ts",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "start": "node dist/src/index.js"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@total-typescript/tsconfig": "^1.0.4",
+    "@types/node": "^22.10.2",
+    "@types/pg": "^8.11.10",
+    "kysely-codegen": "^0.17.0",
+    "kysely-ctl": "^0.9.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "kysely": "^0.27.5",
+    "pg": "^8.13.1"
+  }
+}
